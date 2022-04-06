@@ -1,0 +1,16 @@
+{
+  "records": [
+    {
+      "type": "A",
+      "name": "queer.software",
+      "content": "192.0.2.1",
+      "ttl": 1
+    },
+    {
+      "type": "A",
+      "name": "www",
+      "content": "192.0.2.1",
+      "ttl": 1
+    }
+  ]
+}

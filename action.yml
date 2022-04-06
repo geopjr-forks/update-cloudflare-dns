@@ -1,5 +1,5 @@
-name: Update Cloudflare DNS records
-description: Update your Cloudflare DNS records in seconds, using just a config file
+name: with-a-chance-of-meatballs
+description: Update your Cloudflare DNS records in seconds, using just a config file. This is a fork of https://github.com/pvinis/update-cloudflare-dns.
 
 inputs:
   zone:
@@ -10,10 +10,10 @@ inputs:
     required: true
 
 runs:
-  using: node12
+  using: node16
   main: dist/index.js
 
-author: Pavlos Vinieratos <pvinis@gmail.com>
+author: GeopJr
 branding:
   icon: cloud
-  color: purple
+  color: yellow
