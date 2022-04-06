@@ -131,7 +131,7 @@ const main = async () => {
 								type: rec.type,
 								name: rec.name,
 								content,
-								ttl: rec.ttl ?? 14400,
+								ttl: rec.ttl ?? 1,
 							})
 							break
 
@@ -140,8 +140,8 @@ const main = async () => {
 								type: rec.type,
 								name: rec.name,
 								content: rec.mailServer,
-								priority: rec.priority,
-								ttl: rec.ttl ?? 10,
+								priority: rec.priority ?? 10,
+								ttl: rec.ttl ?? 1,
 							})
 							break
 							
@@ -150,7 +150,7 @@ const main = async () => {
 								type: rec.type,
 								name: rec.name,
 								content: rec.target,
-								ttl: rec.ttl ?? 14400,
+								ttl: rec.ttl ?? 1,
 							})
 							break
 
