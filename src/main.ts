@@ -141,7 +141,16 @@ const main = async () => {
 								name: rec.name,
 								content: rec.mailServer,
 								priority: rec.priority,
-								ttl: rec.ttl ?? 1,
+								ttl: rec.ttl ?? 10,
+							})
+							break
+							
+						case 'CNAME':
+							await cf.dnsRecords.add(zoneId, {
+								type: rec.type,
+								name: rec.name,
+								content: rec.mailServer,
+								ttl: rec.ttl ?? 14400,
 							})
 							break
 
