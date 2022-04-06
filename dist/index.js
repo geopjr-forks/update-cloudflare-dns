@@ -30,12 +30,8 @@ const remoteRecordToConfigRecord = (rec) => {
             return Object.assign(Object.assign({}, setCommonStuff(rec)), { type: 'A', ipv4: rec.content });
         case 'AAAA':
             return Object.assign(Object.assign({}, setCommonStuff(rec)), { type: 'AAAA', ipv6: string_1.toLowerCase(rec.content) });
-        // case 'CNAME':
-        // 	return {
-        // 		...setCommonStuff(rec),
-        // 		type: 'CNAME',
-        // 		ipv6: toLowerCase(rec.content),
-        // 	}
+        case 'CNAME':
+            return Object.assign(Object.assign({}, setCommonStuff(rec)), { type: 'CNAME', target: rec.content });
         // case 'HTTPS':
         // 	return {
         // 		...setCommonStuff(rec),
@@ -43,7 +39,7 @@ const remoteRecordToConfigRecord = (rec) => {
         // 		ipv6: toLowerCase(rec.content),
         // 	}
         case 'TXT':
-            return Object.assign(Object.assign({ type: rec.type }, setCommonStuff(rec)), { name: '', content: '', ttl: 1 });
+            return Object.assign(Object.assign({ type: rec.type }, setCommonStuff(rec)), { content: rec.content });
         case 'MX':
             return {
                 type: rec.type,
@@ -88,6 +84,12 @@ const sameRecord = (remoteRecord, configRecord) => {
             if (remoteRecord.priority !== configRecord.priority)
                 return false;
             break;
+        case 'CNAME':
+            if (remoteRecord.content !== configRecord.target)
+                return false;
+            if (remoteRecord.ttl !== configRecord.ttl)
+                return false;
+            break;
     }
     return true;
 };
@@ -102,6 +104,8 @@ const recordContent = (record) => {
             return record.content;
         case 'MX':
             return record.mailServer;
+        case 'CNAME':
+            return record.target;
     }
     // return absurd(record)
     return 'OH NO';
@@ -269,7 +273,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     });
     console.log('Records that will be added:');
     yield Promise.all(toBeAdded.map((rec) => __awaiter(void 0, void 0, void 0, function* () {
-        var _a, _b, _c;
+        var _a, _b, _c, _d;
         if (!DRY_RUN) {
             try {
                 const content = helpers_1.recordContent(rec);
@@ -280,7 +284,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
                             type: rec.type,
                             name: rec.name,
                             content,
-                            ttl: 1,
+                            ttl: 14400,
                             proxied: (_a = rec.proxied) !== null && _a !== void 0 ? _a : true,
                         });
                         break;
@@ -289,7 +293,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
                             type: rec.type,
                             name: rec.name,
                             content,
-                            ttl: (_b = rec.ttl) !== null && _b !== void 0 ? _b : 1,
+                            ttl: (_b = rec.ttl) !== null && _b !== void 0 ? _b : 14400,
                         });
                         break;
                     case 'MX':
@@ -298,7 +302,15 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
                             name: rec.name,
                             content: rec.mailServer,
                             priority: rec.priority,
-                            ttl: (_c = rec.ttl) !== null && _c !== void 0 ? _c : 1,
+                            ttl: (_c = rec.ttl) !== null && _c !== void 0 ? _c : 10,
+                        });
+                        break;
+                    case 'CNAME':
+                        yield cf.dnsRecords.add(zoneId, {
+                            type: rec.type,
+                            name: rec.name,
+                            content: rec.target,
+                            ttl: (_d = rec.ttl) !== null && _d !== void 0 ? _d : 14400,
                         });
                         break;
                     default:

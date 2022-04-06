@@ -121,7 +121,7 @@ const main = async () => {
 								type: rec.type,
 								name: rec.name,
 								content,
-								ttl: 1,
+								ttl: 14400,
 								proxied: rec.proxied ?? true,
 							})
 							break
@@ -131,7 +131,7 @@ const main = async () => {
 								type: rec.type,
 								name: rec.name,
 								content,
-								ttl: rec.ttl ?? 1,
+								ttl: rec.ttl ?? 14400,
 							})
 							break
 
@@ -149,7 +149,7 @@ const main = async () => {
 							await cf.dnsRecords.add(zoneId, {
 								type: rec.type,
 								name: rec.name,
-								content: rec.mailServer,
+								content: rec.target,
 								ttl: rec.ttl ?? 14400,
 							})
 							break

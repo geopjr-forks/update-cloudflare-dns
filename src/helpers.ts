@@ -35,12 +35,12 @@ export const remoteRecordToConfigRecord = (rec: RemoteRecord): ConfigRecord => {
 				ipv6: toLowerCase(rec.content),
 			}
 
-			// case 'CNAME':
-			// 	return {
-			// 		...setCommonStuff(rec),
-			// 		type: 'CNAME',
-			// 		ipv6: toLowerCase(rec.content),
-			// 	}
+		case 'CNAME':
+			return {
+				...setCommonStuff(rec),
+				type: 'CNAME',
+				target: rec.content,
+			}
 
 			// case 'HTTPS':
 			// 	return {
@@ -53,9 +53,7 @@ export const remoteRecordToConfigRecord = (rec: RemoteRecord): ConfigRecord => {
 			return {
 				type: rec.type,
 				...setCommonStuff(rec),
-				name: '',
-				content: '',
-				ttl: 1,
+				content: rec.content,
 			}
 
 		case 'MX':
@@ -107,6 +105,11 @@ export const sameRecord = (
 			if (remoteRecord.content !== configRecord.mailServer) return false
 			if (remoteRecord.priority !== configRecord.priority) return false
 			break
+
+		case 'CNAME':
+			if (remoteRecord.content !== configRecord.target) return false
+			if (remoteRecord.ttl !== configRecord.ttl) return false
+			break
 	}
 	return true
 }
@@ -121,6 +124,8 @@ export const recordContent = (record: ConfigRecord): string => {
 			return record.content
 		case 'MX':
 			return record.mailServer
+		case 'CNAME':
+			return record.target
 	}
 	// return absurd(record)
 	return 'OH NO'
