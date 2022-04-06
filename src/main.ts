@@ -18,7 +18,6 @@ import { Config } from './types'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config()
 
-
 const inputOrEnv = (inputName: string, envName: string) => {
 	const input = core.getInput(inputName)
 	if (input !== '') return input
@@ -131,7 +130,7 @@ const main = async () => {
 								type: rec.type,
 								name: rec.name,
 								content,
-								ttl: rec.ttl ?? 1,
+								ttl: 1,
 							})
 							break
 
@@ -141,16 +140,16 @@ const main = async () => {
 								name: rec.name,
 								content: rec.mailServer,
 								priority: rec.priority ?? 10,
-								ttl: rec.ttl ?? 1,
+								ttl: 1,
 							})
 							break
-							
+
 						case 'CNAME':
 							await cf.dnsRecords.add(zoneId, {
 								type: rec.type,
 								name: rec.name,
 								content: rec.target,
-								ttl: rec.ttl ?? 1,
+								ttl: 1,
 							})
 							break
 

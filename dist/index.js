@@ -273,7 +273,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     });
     console.log('Records that will be added:');
     yield Promise.all(toBeAdded.map((rec) => __awaiter(void 0, void 0, void 0, function* () {
-        var _a, _b, _c, _d, _e;
+        var _a, _b;
         if (!DRY_RUN) {
             try {
                 const content = helpers_1.recordContent(rec);
@@ -293,7 +293,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
                             type: rec.type,
                             name: rec.name,
                             content,
-                            ttl: (_b = rec.ttl) !== null && _b !== void 0 ? _b : 1,
+                            ttl: 1,
                         });
                         break;
                     case 'MX':
@@ -301,8 +301,8 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
                             type: rec.type,
                             name: rec.name,
                             content: rec.mailServer,
-                            priority: (_c = rec.priority) !== null && _c !== void 0 ? _c : 10,
-                            ttl: (_d = rec.ttl) !== null && _d !== void 0 ? _d : 1,
+                            priority: (_b = rec.priority) !== null && _b !== void 0 ? _b : 10,
+                            ttl: 1,
                         });
                         break;
                     case 'CNAME':
@@ -310,7 +310,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
                             type: rec.type,
                             name: rec.name,
                             content: rec.target,
-                            ttl: (_e = rec.ttl) !== null && _e !== void 0 ? _e : 1,
+                            ttl: 1,
                         });
                         break;
                     default:
